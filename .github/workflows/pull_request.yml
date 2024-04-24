@@ -1,0 +1,12 @@
+name: Backend CI on Pull Request
+
+on:
+  pull_request:
+    branches:
+      - main
+      - develop
+
+jobs:
+  backend-code-quality:
+    name: Backend Code Quality
+    uses: ./.github/workflows/code_quality.yml
