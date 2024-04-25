@@ -29,7 +29,12 @@ docker:
 # Add 'fix' label to any PR where the head branch name starts with `fix` or has a `fix` section in the name
 fix:
   - head-branch: ['^fix', 'fix']
-  -
+
+# Add 'CI/CD' label to any PR where the head branch name starts with `ci` or has a `ci` section in the name or changes to the GitHub Actions workflow files
+ci-cd:
+  - head-branch: ['^ci', 'ci']
+  - changed-files:
+      - any-glob-to-any-file: '.github/workflows/**'
 
 # Add 'feature' label to any PR where the head branch name starts with `feature` or has a `feature` section in the name
 feature:
