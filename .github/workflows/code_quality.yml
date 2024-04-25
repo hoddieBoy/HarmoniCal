@@ -2,11 +2,20 @@ name: Code Quality
 
 on:
   workflow_call:
+    inputs:
+      working-directory:
+        description: 'The directory where the code is located'
+        required: true
+        type: string
+        default: '.'
 
 jobs:
   sonarcloud:
     name: SonarCloud
     runs-on: ubuntu-latest
+    defaults:
+      run:
+          working-directory: ${{ inputs.working-directory }}
     steps:
       - uses: actions/checkout@v4
         with:

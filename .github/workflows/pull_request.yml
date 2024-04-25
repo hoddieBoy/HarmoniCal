@@ -10,4 +10,6 @@ jobs:
   backend-code-quality:
     name: Backend Code Quality
     uses: ./.github/workflows/code_quality.yml
+    with:
+      working-directory: './backend'
     secrets: inherit
