@@ -20,7 +20,16 @@ jobs:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           configuration-path: .github/labeler.yml
 
+  check-paths:
+    uses: ./.github/workflows/path-checker.yml
+    with:
+      base_ref: ${{ github.event.pull_request.base.sha }}
+      head_ref: ${{ github.event.pull_request.head.sha }}
+      paths: 'backend/**/*'
+
   backend-code-quality:
     name: Backend Code Quality
+    needs: check-paths
+    if: ${{ needs.check-paths.outputs.changes_detected == 'true' }}
     uses: ./.github/workflows/code_quality.yml
     secrets: inherit
