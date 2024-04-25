@@ -11,6 +11,10 @@ on:
         description: 'Java distribution to use'
         required: true
         type: string
+    outputs:
+      cache-key:
+        description: 'Cache key for Maven dependencies'
+        value: ${{ jobs.setup.outputs.cache-key }}
 
 jobs:
   setup:
@@ -31,4 +35,4 @@ jobs:
 
       - name: Generate cache key
         id: cache-key
-        run: echo "::set-output name=key::$(echo ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }})"
+        run: echo "key=$(echo ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }})" >> $GITHUB_OUTPUT
