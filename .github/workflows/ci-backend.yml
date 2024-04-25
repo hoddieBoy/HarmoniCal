@@ -10,7 +10,6 @@ concurrency:
   group: ${{ github.event.pull_request.head.sha }}
   cancel-in-progress: true
 
-
 jobs:
   check-paths:
     uses: ./.github/workflows/path-checker.yml
@@ -19,17 +18,9 @@ jobs:
       head_ref: ${{ github.event.pull_request.head.sha }}
       paths: 'backend/'
 
-  setup:
-    needs: [check-paths]
-    if: ${{ needs.check-paths.outputs.changes_detected }}
-    uses: ./.github/workflows/setup-jdk-and-checkout.yml
-    with:
-      java-version: '21'
-      distribution: 'temurin'
-
   build-and-analyze:
-    needs: [setup]
-    if: ${{ needs.setup.outputs.cache-key }}
+    needs: [check-paths]
+    if: ${{ needs.check-paths.outputs.changes_detected == 'true' }}
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -40,12 +31,18 @@ jobs:
         with:
           fetch-depth: 0  # Ensures all history is fetched
 
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'  # Ensure this version is correct for your project
+          distribution: 'temurin'
+
       - name: Cache Maven dependencies
         uses: actions/cache@v4
         with:
           path: ~/.m2
-          key: ${{ needs.setup.outputs.cache-key }}
-          restore-keys: ${{ needs.setup.outputs.cache-key }}
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
 
       - name: Build and Generate coverage report
         run: mvn clean verify -Pcoverage --batch-mode
@@ -53,5 +50,5 @@ jobs:
       - name: Run SonarCloud analysis
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn sonar:sonar
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_BACKEND }}
+        run: mvn sonar:sonar -Dsonar.java.binaries=target/classes -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml --batch-mode
