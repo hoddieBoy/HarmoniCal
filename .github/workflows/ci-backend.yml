@@ -1,0 +1,76 @@
+name: Backend CI on Pull Request
+
+on:
+  pull_request:
+    branches:
+      - main
+      - develop
+
+jobs:
+  check-paths:
+    uses: ./.github/workflows/path-checker.yml
+    with:
+      base_ref: ${{ github.event.pull_request.base.sha }}
+      head_ref: ${{ github.event.pull_request.head.sha }}
+      paths: 'backend/**/*'
+
+  setup:
+    needs: [check-paths]
+    if: ${{ needs.check-paths.outputs.changes_detected == 'true' }}
+    uses: ./.github/workflows/setup-jdk-and-checkout.yml
+    with:
+      java-version: '21'
+      distribution: 'temurin'
+
+  build-and-test:
+    name: Build and Test
+    needs: [setup]
+    if: ${{ needs.setup.outputs.cache-key != '' }}
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./backend
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Cache Maven packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2
+          key: ${{ needs.setup.outputs.cache-key }}
+          restore-keys: ${{ runner.os }}-m2
+      - name: Build with Maven
+        run: mvn -B verify
+      - name: Run tests
+        run: mvn test
+
+  code-quality:
+    name: Code Quality Check
+    needs: [build-and-test]
+    if: ${{ needs.build-and-test.result == 'success' }}
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./backend
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Cache SonarCloud packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+      - name: Cache Maven packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+      - name: Build and analyze
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_BACKEND }}
+        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=harmoniCal-backend

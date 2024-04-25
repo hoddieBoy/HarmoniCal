@@ -1,0 +1,34 @@
+name: Setup JDK and Checkout
+
+on:
+  workflow_call:
+    inputs:
+      java-version:
+        description: 'Java version to set up'
+        required: true
+        type: string
+      distribution:
+        description: 'Java distribution to use'
+        required: true
+        type: string
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      cache-key: ${{ steps.cache-key.outputs.key }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Performs a full git history checkout
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: ${{ inputs.java-version }}
+          distribution: ${{ inputs.distribution }}
+
+      - name: Generate cache key
+        id: cache-key
+        run: echo "::set-output name=key::$(echo ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }})"
