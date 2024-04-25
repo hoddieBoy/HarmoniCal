@@ -1,0 +1,47 @@
+name: Path Changes Checker
+
+on:
+  workflow_call:
+    inputs:
+      base_ref:
+        required: true
+        type: string
+      head_ref:
+        required: true
+        type: string
+      paths:
+        required: true
+        type: string
+        description: "Paths to check, separated by a space"
+
+    outputs:
+      changes_detected:
+        description: "Whether changes were detected in the specified paths"
+        value: ${{ jobs.path-check.outputs.changes_detected }}
+
+jobs:
+  path-check:
+    runs-on: ubuntu-latest
+    outputs:
+      changes_detected: ${{ steps.changes.outputs.changes_detected }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Ensures all history is fetched
+
+      - name: Check for changes in specified paths
+        id: changes
+        run: |
+          echo "Checking for changes in the following paths: ${{ inputs.paths }}"
+          IFS=' ' read -r -a paths_array <<< "${{ inputs.paths }}"
+          CHANGES_DETECTED=false
+          for path in "${paths_array[@]}"
+          do
+            if git diff --name-only ${{ inputs.base_ref }}...${{ inputs.head_ref }} | grep -E "^(${path})"
+            then
+              CHANGES_DETECTED=true
+              break
+            fi
+          done
+          echo "changes_detected=$CHANGES_DETECTED" >> $GITHUB_OUTPUT

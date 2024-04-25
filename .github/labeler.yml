@@ -1,0 +1,45 @@
+Documentation:
+  - changed-files:
+      - any-glob-to-any-file: ['docs/**', 'guides/**', '**/*.md']
+
+# Add 'backend' label to any change to files within the backend dir except for documentation files
+backend:
+  - all:
+    - changed-files:
+        - any-glob-to-any-file: 'backend/**/*'
+        - all-globs-to-all-files:
+          - '!backend/docs/**'
+          - '!backend/guides/**'
+          - '!backend/**/*.md'
+
+frontend:
+  - all:
+    - changed-files:
+        - any-glob-to-any-file: 'frontend/**/*'
+        - all-globs-to-all-files:
+          - '!frontend/docs/**'
+          - '!frontend/guides/**'
+          - '!frontend/**/*.md'
+
+docker:
+  - all:
+    - changed-files:
+        - any-glob-to-any-file: ['docker/**/*', '**/docker-compose.yml', '**/Dockerfile']
+
+# Add 'fix' label to any PR where the head branch name starts with `fix` or has a `fix` section in the name
+fix:
+  - head-branch: ['^fix', 'fix']
+
+# Add 'CI/CD' label to any PR where the head branch name starts with `ci` or has a `ci` section in the name or changes to the GitHub Actions workflow files
+ci-cd:
+  - head-branch: ['^ci', 'ci']
+  - changed-files:
+      - any-glob-to-any-file: '.github/workflows/**'
+
+# Add 'feature' label to any PR where the head branch name starts with `feature` or has a `feature` section in the name
+feature:
+  - head-branch: ['^feat', 'feat']
+
+# Add 'release' label to any PR that is opened against the `main` branch
+release:
+  - base-branch: 'main'
