@@ -1,7 +1,7 @@
-package com.harmonical.application.mapper;
+package com.harmonical.backend.application.mapper;
 
-import com.harmonical.domain.model.Event;
-import com.harmonical.infrastructure.persistence.model.EventEntity;
+import com.harmonical.backend.domain.model.Event;
+import com.harmonical.backend.infrastructure.persistence.model.EventEntity;
 
 public class EventMapper {
 

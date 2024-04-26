@@ -1,6 +1,6 @@
-package com.harmonical.infrastructure.persistence.model;
+package com.harmonical.backend.infrastructure.persistence.model;
 
-import com.harmonical.infrastructure.persistence.listener.EventEntityListener;
+import com.harmonical.backend.infrastructure.persistence.listener.EventEntityListener;
 import jakarta.persistence.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;

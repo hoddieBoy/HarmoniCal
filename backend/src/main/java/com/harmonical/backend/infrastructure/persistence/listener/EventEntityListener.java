@@ -1,6 +1,6 @@
-package com.harmonical.infrastructure.persistence.listener;
+package com.harmonical.backend.infrastructure.persistence.listener;
 
-import com.harmonical.infrastructure.persistence.model.EventEntity;
+import com.harmonical.backend.infrastructure.persistence.model.EventEntity;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 

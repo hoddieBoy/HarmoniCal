@@ -1,4 +1,4 @@
-package com.harmonical.domain.model;
+package com.harmonical.backend.domain.model;
 
 
 import java.time.LocalDateTime;
