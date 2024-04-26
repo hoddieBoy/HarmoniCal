@@ -80,6 +80,16 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
+            <plugin>
+                <groupId>org.flywaydb</groupId>
+                <artifactId>flyway-maven-plugin</artifactId>
+                <version>6.5.7</version>
+                <configuration>
+                    <url>jdbc:postgresql://${env.DB_HOST}:${env.DB_PORT}/${env.DB_NAME}</url>
+                    <user>${env.DB_USER}</user>
+                    <password>${env.DB_PASSWORD}</password>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
