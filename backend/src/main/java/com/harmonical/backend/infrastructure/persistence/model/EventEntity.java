@@ -4,6 +4,7 @@ import com.harmonical.backend.infrastructure.persistence.listener.EventEntityLis
 import jakarta.persistence.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -48,10 +49,6 @@ public class EventEntity {
         this.startTime = startTime;
         this.endTime = endTime;
         this.location = location;
-    }
-
-    public EventEntity(String title, String description, LocalDateTime startTime, LocalDateTime endTime, String location) {
-        this(UUID.randomUUID(), title, description, startTime, endTime, location);
     }
 
     public UUID getId() {
