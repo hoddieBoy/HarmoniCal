@@ -31,7 +31,7 @@ services:
       context: .
     restart: always
     ports:
-      - "8000:8000"
+      - "8081:8080"
     depends_on:
       - postgres
     env_file: .env
@@ -42,11 +42,7 @@ services:
       - ./pom.xml:/app/pom.xml
       - ./target:/app/target
       - ./.m2:/root/.m2
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000/actuator/health"]
-      interval: 10s
-      timeout: 20s
-      retries: 5
+
 
 volumes:
   db-data:
