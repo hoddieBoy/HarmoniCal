@@ -9,8 +9,6 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import static com.harmonical.backend.shared.EventConstants.*;
-
 @Component
 public class EventEntityMapper {
 
