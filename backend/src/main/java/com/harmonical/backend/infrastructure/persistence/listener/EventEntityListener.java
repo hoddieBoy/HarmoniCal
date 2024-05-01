@@ -11,8 +11,9 @@ public class EventEntityListener {
     @PrePersist
     public void onPrePersist(EventEntity eventEntity) {
         LocalDateTime now = LocalDateTime.now();
-        eventEntity.setCreatedAt(now);
-        eventEntity.setUpdatedAt(now);
+        eventEntity
+                .setCreatedAt(now)
+                .setUpdatedAt(now);
     }
 
     @PreUpdate

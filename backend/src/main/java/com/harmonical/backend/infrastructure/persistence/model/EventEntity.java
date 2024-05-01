@@ -8,11 +8,10 @@ import org.springframework.data.annotation.LastModifiedDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-@Entity
 @Table(name = "events")
+@Entity
 @EntityListeners({EventEntityListener.class})
 public class EventEntity {
-
     @Id
     @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
@@ -42,72 +41,83 @@ public class EventEntity {
         // JPA requires a default constructor for entity classes because it needs to create instances of the entity class using reflection.
     }
 
-    public EventEntity(UUID id, String title, String description, LocalDateTime startTime, LocalDateTime endTime, String location) {
-        this.id = id;
-        this.title = title;
-        this.description = description;
-        this.startTime = startTime;
-        this.endTime = endTime;
-        this.location = location;
-    }
-
     public UUID getId() {
         return id;
+    }
+
+    public EventEntity setId(UUID id) {
+        this.id = id;
+
+        return this;
     }
 
     public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
+    public EventEntity setTitle(String title) {
         this.title = title;
+
+        return this;
     }
 
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
+    public EventEntity setDescription(String description) {
         this.description = description;
+
+        return this;
     }
 
     public LocalDateTime getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(LocalDateTime startTime) {
+    public EventEntity setStartTime(LocalDateTime startTime) {
         this.startTime = startTime;
+
+        return this;
     }
 
     public LocalDateTime getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(LocalDateTime endTime) {
+    public EventEntity setEndTime(LocalDateTime endTime) {
         this.endTime = endTime;
+
+        return this;
     }
 
     public String getLocation() {
         return location;
     }
 
-    public void setLocation(String location) {
+    public EventEntity setLocation(String location) {
         this.location = location;
+
+        return this;
     }
 
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
+    public EventEntity setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
+
+        return this;
     }
 
     public LocalDateTime getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(LocalDateTime updatedAt) {
+    public EventEntity setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
+
+        return this;
     }
 }
