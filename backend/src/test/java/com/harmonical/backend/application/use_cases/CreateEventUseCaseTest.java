@@ -66,7 +66,7 @@ class CreateEventUseCaseTest {
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> createEventUseCase.execute(event),
                 "Should throw an exception for past events");
 
-        assertEquals("Event cannot be in the past", exception.getMessage());
+        assertEquals("Event must not be in the past", exception.getMessage());
         verify(eventRepository, never()).save(event);
     }
 }

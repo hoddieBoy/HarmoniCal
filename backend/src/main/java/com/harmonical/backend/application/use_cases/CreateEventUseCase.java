@@ -2,7 +2,6 @@ package com.harmonical.backend.application.use_cases;
 
 import com.harmonical.backend.domain.port.EventRepository;
 import com.harmonical.backend.domain.port.IEvent;
-import jakarta.validation.ConstraintViolationException;
 
 import org.springframework.stereotype.Service;
 
@@ -29,13 +28,13 @@ public class CreateEventUseCase {
         return savedEvent;
     }
 
-    public void validate(IEvent event) throws ConstraintViolationException {
+    public void validate(IEvent event) throws IllegalArgumentException {
         if (event.getId() != null) {
-            throw new ConstraintViolationException("Event ID must be null", null);
+            throw new IllegalArgumentException("Event ID must be null");
         }
 
         if (event.isPast()) {
-            throw new ConstraintViolationException("Event cannot be in the past", null);
+            throw new IllegalArgumentException("Event must not be in the past");
         }
     }
 }
