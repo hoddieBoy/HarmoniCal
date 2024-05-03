@@ -24,5 +24,5 @@ spring:
     url: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
     validate-on-migrate: true
 
-server:
-  port: ${SERVER_PORT}
+  jackson:
+    property-naming-strategy: SNAKE_CASE

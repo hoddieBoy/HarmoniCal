@@ -5,14 +5,16 @@ import jakarta.persistence.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
+import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.UUID;
 
-@Entity
 @Table(name = "events")
+@Entity
 @EntityListeners({EventEntityListener.class})
 public class EventEntity {
-
     @Id
     @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
@@ -20,14 +22,19 @@ public class EventEntity {
     @Column(name = "title", nullable = false)
     private String title;
 
+    @Column(name = "description", nullable = false)
     private String description;
 
-    @Column(name = "start_time", nullable = false)
-    private LocalDateTime startTime;
+    @Column(name = "date", nullable = false)
+    private LocalDate date;
 
-    @Column(name = "end_time", nullable = false)
-    private LocalDateTime endTime;
+    @Column(name = "time", nullable = false)
+    private LocalTime time;
 
+    @Column(name = "duration", nullable = false)
+    private Duration duration;
+
+    @Column(name = "location", nullable = false)
     private String location;
 
     @CreatedDate
@@ -42,72 +49,93 @@ public class EventEntity {
         // JPA requires a default constructor for entity classes because it needs to create instances of the entity class using reflection.
     }
 
-    public EventEntity(UUID id, String title, String description, LocalDateTime startTime, LocalDateTime endTime, String location) {
-        this.id = id;
-        this.title = title;
-        this.description = description;
-        this.startTime = startTime;
-        this.endTime = endTime;
-        this.location = location;
-    }
-
     public UUID getId() {
         return id;
+    }
+
+    public EventEntity setId(UUID id) {
+        this.id = id;
+
+        return this;
     }
 
     public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
+    public EventEntity setTitle(String title) {
         this.title = title;
+
+        return this;
     }
 
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
+    public EventEntity setDescription(String description) {
         this.description = description;
+
+        return this;
     }
 
-    public LocalDateTime getStartTime() {
-        return startTime;
+    public LocalDate getDate() {
+        return date;
     }
 
-    public void setStartTime(LocalDateTime startTime) {
-        this.startTime = startTime;
+    public EventEntity setDate(LocalDate date) {
+        this.date = date;
+
+        return this;
     }
 
-    public LocalDateTime getEndTime() {
-        return endTime;
+    public LocalTime getTime() {
+        return time;
     }
 
-    public void setEndTime(LocalDateTime endTime) {
-        this.endTime = endTime;
+    public EventEntity setTime(LocalTime time) {
+        this.time = time;
+
+        return this;
     }
 
     public String getLocation() {
         return location;
     }
 
-    public void setLocation(String location) {
+    public EventEntity setLocation(String location) {
         this.location = location;
+
+        return this;
+    }
+
+    public Duration getDuration() {
+        return duration;
+    }
+
+    public EventEntity setDuration(Duration duration) {
+        this.duration = duration;
+
+        return this;
     }
 
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
+    public EventEntity setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
+
+        return this;
     }
 
     public LocalDateTime getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(LocalDateTime updatedAt) {
+    public EventEntity setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
+
+        return this;
     }
 }

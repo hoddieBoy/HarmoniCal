@@ -1,0 +1,65 @@
+version: 3
+
+tasks:
+  bootstrap:
+    desc: "Bootstrap the project"
+    cmds:
+      - docker compose -f docker-compose.yml -f build
+      - docker compose pull
+      - task: mvn_dependencies_install
+
+  start:
+    desc: "Start docker containers"
+
+    cmds:
+      - docker compose up -d
+      - task: migrate
+
+  stop:
+    desc: "Stop docker containers"
+    cmds:
+      - docker compose down
+
+  test:
+    desc: "Run tests"
+    cmds:
+      - task: mvn
+        vars:
+          CLI_ARGS: "test"
+
+  test_coverage:
+    desc: "Run tests with coverage"
+    cmds:
+      - task: mvn
+        vars:
+          CLI_ARGS: "test -Pcoverage"
+    generates:
+      - ./target/site/jacoco/index.html
+
+
+  mvn:
+    desc: "Shortcut for running maven commands"
+    cmds:
+      - docker compose run --rm api ./mvnw {{.CLI_ARGS}}
+
+  mvn_dependencies_install:
+    desc: "Install maven dependencies"
+    cmds:
+      - task: mvn
+        vars:
+          CLI_ARGS: "-DskipTests dependency:go-offline"
+    sources:
+      - ./pom.xml
+    generates:
+      - ./.m2
+      - ./target
+
+  migrate:
+    desc: "Run flyway migrations"
+    cmds:
+      - task: mvn
+        vars:
+          CLI_ARGS: "flyway:migrate"
+    sources:
+      - ./src/main/resources/db/migration
+
