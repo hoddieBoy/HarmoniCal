@@ -1,38 +1,37 @@
-FROM eclipse-temurin:21-jdk-alpine AS builder
-
-# Install dependencies:
-# - inotify-tools: for watching file changes
-# - dos2unix: for converting files from Windows to Unix format
-# - curl: for downloading files
-# - jq: for parsing JSON files
-RUN apk add --no-cache inotify-tools dos2unix curl jq
-
-# Define the working directory
+# Base stage for shared setup
+FROM eclipse-temurin:21-jdk-alpine AS base
 WORKDIR /app
 
-# Copy maven wrapper files
-COPY mvnw .
-COPY .mvn .mvn
+# Install necessary tools and cleanup in one layer
+RUN apk add --no-cache dos2unix
+COPY mvnw .mvn .mvn mvnw ./
+RUN dos2unix mvnw && chmod +x mvnw && apk del dos2unix
 
-RUN dos2unix mvnw && chmod +x mvnw
+# Copy project descriptor
+COPY pom.xml .
 
-# Copy the project files
-COPY pom.xml ./
-
-# Download the dependencies
+# Builder stage to handle dependencies
+FROM base AS builder
+RUN apk add --no-cache curl jq
+# Download dependencies
 RUN ./mvnw dependency:go-offline
 
-# Copy the source code
-COPY src/ ./src/
+# Copy source code
+COPY src ./src
 
+# Development stage for development environment setup
 FROM builder AS development
-
-COPY docker/entrypoint.sh /usr/local/bin/entrypoint.sh
-
-# Make the entrypoint script executable
+RUN apk add --no-cache inotify-tools bash
+COPY docker/entrypoint.sh /usr/local/bin/
 RUN dos2unix /usr/local/bin/entrypoint.sh && chmod +x /usr/local/bin/entrypoint.sh
-
-# Install bash for the entrypoint script
-RUN apk add --no-cache bash
-
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+
+# Test stage builds upon the builder stage
+FROM builder AS test
+# Additional test setups or dependencies can be handled here
+
+# Production stage for final deployment
+FROM base AS production
+COPY --from=builder /app/target/*.jar /app/
+
+CMD ["java", "-jar", "/app/app.jar"]
