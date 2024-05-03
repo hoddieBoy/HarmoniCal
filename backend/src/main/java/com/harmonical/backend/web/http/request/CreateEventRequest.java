@@ -2,7 +2,9 @@ package com.harmonical.backend.web.http.request;
 
 import com.harmonical.backend.web.http.validation.TimeAndDurationConsistency;
 import com.harmonical.backend.web.http.validation.ValidDate;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 
 import java.time.LocalTime;
 

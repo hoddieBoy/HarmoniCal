@@ -1,17 +1,18 @@
 package com.harmonical.backend.domain.model;
 
-import static org.junit.jupiter.api.Assertions.*;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EmptySource;
-import org.junit.jupiter.params.provider.NullAndEmptySource;
 import org.junit.jupiter.params.provider.ValueSource;
+
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.UUID;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 class EventTest {
 
@@ -52,7 +53,7 @@ class EventTest {
 
     @ParameterizedTest
     @EmptySource
-    @ValueSource(strings = { "  ", "\t", "\n" })
+    @ValueSource(strings = {"  ", "\t", "\n"})
     @DisplayName("Event constructor should throw IllegalArgumentException when title is invalid")
     void constructor_ShouldThrowException_When_TitleIsInvalid(String invalidTitle) {
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->

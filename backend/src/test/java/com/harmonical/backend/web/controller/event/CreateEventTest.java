@@ -1,6 +1,5 @@
 package com.harmonical.backend.web.controller.event;
 
-import org.json.JSONException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -10,8 +9,6 @@ import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.boot.web.servlet.server.ServletWebServerFactory;
-import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpHeaders;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.reactive.server.WebTestClient;
@@ -19,10 +16,6 @@ import reactor.core.publisher.Mono;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.temporal.ChronoUnit;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @DisplayName("Given: A request to create an event")
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
@@ -159,7 +152,7 @@ class CreateEventTest {
 
         @ParameterizedTest
         @DisplayName("Then: The request fails with a 400 Bad Request status code")
-        @ValueSource(strings = { "  ", "\\t", "\\n" })
+        @ValueSource(strings = {"  ", "\\t", "\\n"})
         void createEvent_Fails(String invalidTitle) {
             // Arrange
             LocalDate startDate = LocalDate.now().plusDays(1);
@@ -239,7 +232,7 @@ class CreateEventTest {
         // Wrong format or invalid date
         @ParameterizedTest
         @DisplayName("Then: The request fails with a 400 Bad Request status code")
-        @ValueSource(strings = { "2022/01/01", "2022-13-01", "2022-02-30" })
+        @ValueSource(strings = {"2022/01/01", "2022-13-01", "2022-02-30"})
         void createEvent_Fails(String invalidDate) {
             // Arrange
             String title = "Board Meeting";
@@ -267,7 +260,7 @@ class CreateEventTest {
         // Wrong format or invalid duration
         @ParameterizedTest
         @DisplayName("Then: The request fails with a 400 Bad Request status code")
-        @ValueSource(strings = { "30", "2h30", "2h30m30s", "2.5h"})
+        @ValueSource(strings = {"30", "2h30", "2h30m30s", "2.5h"})
         void createEvent_Fails(String invalidDuration) {
             // Arrange
             LocalDate startDate = LocalDate.now().plusDays(1);

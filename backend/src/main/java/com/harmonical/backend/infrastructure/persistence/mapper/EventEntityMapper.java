@@ -5,8 +5,6 @@ import com.harmonical.backend.domain.port.IEvent;
 import com.harmonical.backend.infrastructure.persistence.model.EventEntity;
 import org.springframework.stereotype.Component;
 
-import java.time.Duration;
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Component

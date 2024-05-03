@@ -40,6 +40,16 @@ public class Event implements IEvent {
         return title;
     }
 
+    private void setTitle(String title) {
+        Objects.requireNonNull(title, "Title cannot be null");
+
+        if (title.isBlank()) {
+            throw new IllegalArgumentException("Title cannot be blank");
+        }
+
+        this.title = title;
+    }
+
     @Override
     public String getDescription() {
         return description;
@@ -99,16 +109,6 @@ public class Event implements IEvent {
         setTitle(title);
         this.description = Objects.requireNonNullElse(description, "No description provided");
         this.location = Objects.requireNonNullElse(location, "No location provided");
-    }
-
-    private void setTitle(String title) {
-        Objects.requireNonNull(title, "Title cannot be null");
-
-        if (title.isBlank()) {
-            throw new IllegalArgumentException("Title cannot be blank");
-        }
-
-        this.title = title;
     }
 
 

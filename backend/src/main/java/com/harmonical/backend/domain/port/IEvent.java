@@ -2,9 +2,7 @@ package com.harmonical.backend.domain.port;
 
 import java.time.Duration;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.Map;
 import java.util.UUID;
 
 public interface IEvent {

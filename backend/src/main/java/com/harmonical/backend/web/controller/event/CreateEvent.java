@@ -1,7 +1,6 @@
 package com.harmonical.backend.web.controller.event;
 
 import com.harmonical.backend.application.use_cases.CreateEventUseCase;
-
 import com.harmonical.backend.web.http.request.CreateEventRequest;
 import com.harmonical.backend.web.http.response.EventResponse;
 import com.harmonical.backend.web.mapper.EventMapper;
@@ -12,8 +11,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.logging.Logger;
 
 @RestController
 @RequestMapping("/api/events")
