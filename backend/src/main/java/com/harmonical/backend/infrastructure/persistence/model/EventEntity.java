@@ -5,7 +5,10 @@ import jakarta.persistence.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
+import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.UUID;
 
 @Table(name = "events")
@@ -19,14 +22,19 @@ public class EventEntity {
     @Column(name = "title", nullable = false)
     private String title;
 
+    @Column(name = "description", nullable = false)
     private String description;
 
-    @Column(name = "start_time", nullable = false)
-    private LocalDateTime startTime;
+    @Column(name = "date", nullable = false)
+    private LocalDate date;
 
-    @Column(name = "end_time", nullable = false)
-    private LocalDateTime endTime;
+    @Column(name = "time", nullable = false)
+    private LocalTime time;
 
+    @Column(name = "duration", nullable = false)
+    private Duration duration;
+
+    @Column(name = "location", nullable = false)
     private String location;
 
     @CreatedDate
@@ -71,22 +79,22 @@ public class EventEntity {
         return this;
     }
 
-    public LocalDateTime getStartTime() {
-        return startTime;
+    public LocalDate getDate() {
+        return date;
     }
 
-    public EventEntity setStartTime(LocalDateTime startTime) {
-        this.startTime = startTime;
+    public EventEntity setDate(LocalDate date) {
+        this.date = date;
 
         return this;
     }
 
-    public LocalDateTime getEndTime() {
-        return endTime;
+    public LocalTime getTime() {
+        return time;
     }
 
-    public EventEntity setEndTime(LocalDateTime endTime) {
-        this.endTime = endTime;
+    public EventEntity setTime(LocalTime time) {
+        this.time = time;
 
         return this;
     }
@@ -97,6 +105,16 @@ public class EventEntity {
 
     public EventEntity setLocation(String location) {
         this.location = location;
+
+        return this;
+    }
+
+    public Duration getDuration() {
+        return duration;
+    }
+
+    public EventEntity setDuration(Duration duration) {
+        this.duration = duration;
 
         return this;
     }

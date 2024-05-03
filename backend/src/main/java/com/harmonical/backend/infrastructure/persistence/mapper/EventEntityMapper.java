@@ -17,25 +17,24 @@ public class EventEntityMapper {
     }
 
     public EventEntity toEntity(IEvent event) {
-        LocalDateTime startTime = LocalDateTime.of(event.getDate(), event.getTime());
         return new EventEntity()
                 .setId(event.getId() == null ? UUID.randomUUID() : event.getId())
                 .setTitle(event.getTitle())
                 .setDescription(event.getDescription())
-                .setStartTime(startTime)
-                .setEndTime(startTime.plus(event.getDuration()))
+                .setDate(event.getDate())
+                .setTime(event.getTime())
+                .setDuration(event.getDuration())
                 .setLocation(event.getLocation());
     }
 
     public IEvent toDomain(EventEntity eventEntity) {
-        Duration duration = Duration.between(eventEntity.getStartTime(), eventEntity.getEndTime());
         return new Event(
                 eventEntity.getId(),
                 eventEntity.getTitle(),
                 eventEntity.getDescription(),
-                eventEntity.getStartTime().toLocalDate(),
-                eventEntity.getStartTime().toLocalTime(),
-                duration,
+                eventEntity.getDate(),
+                eventEntity.getTime(),
+                eventEntity.getDuration(),
                 eventEntity.getLocation()
         );
     }
