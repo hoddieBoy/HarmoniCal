@@ -7,6 +7,9 @@ import com.harmonical.backend.infrastructure.persistence.repository.JPAEventRepo
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+import java.util.UUID;
+
 @Component
 public class EventRepositoryAdapter implements EventRepository {
     private final JPAEventRepository jpaEventRepository;
@@ -25,5 +28,11 @@ public class EventRepositoryAdapter implements EventRepository {
                         mapper.toEntity(event)
                 )
         );
+    }
+
+    @Override
+    public Optional<IEvent> findById(UUID eventId) {
+        return jpaEventRepository.findById(eventId)
+                .map(mapper::toDomain);
     }
 }
