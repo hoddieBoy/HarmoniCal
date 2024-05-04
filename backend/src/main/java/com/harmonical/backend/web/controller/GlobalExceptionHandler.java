@@ -2,11 +2,13 @@ package com.harmonical.backend.web.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import com.harmonical.backend.domain.exception.ResourceNotFoundException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -42,5 +44,13 @@ public class GlobalExceptionHandler {
                                 "errors", errors
                         )
                 );
+    }
+
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<Map<String, String>> handleResourceNotFoundException(ResourceNotFoundException e) {
+        return new ResponseEntity<>(
+                Map.of("message", e.getMessage()),
+                HttpStatus.NOT_FOUND
+        );
     }
 }
