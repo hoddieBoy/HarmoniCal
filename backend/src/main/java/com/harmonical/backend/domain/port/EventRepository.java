@@ -1,5 +1,6 @@
 package com.harmonical.backend.domain.port;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -9,5 +10,5 @@ public interface EventRepository {
 
     Optional<IEvent> findById(UUID eventId);
 
-    List<IEvent> findAll(String name, String beginDate, String endDate);
+    List<IEvent> findAll(String search, LocalDate beginDate, LocalDate endDate);
 }

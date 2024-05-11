@@ -26,12 +26,12 @@ public class ReadListEvent {
     }
 
     @GetMapping
-    // We can paginate the list of events or filter by beginning date, end date, or name
-    public ResponseEntity<List<EventResponse>> readListEvent(@RequestParam(required = false) String title,
+    public ResponseEntity<List<EventResponse>> readListEvent(@RequestParam(required = false) String search,
                                                              @RequestParam(required = false) String beginDate,
                                                              @RequestParam(required = false) String endDate) {
         return new ResponseEntity<>(
-                readListEventUseCase.execute(title, beginDate, endDate).stream()
+                readListEventUseCase.execute(search, beginDate, endDate)
+                        .stream()
                         .map(eventMapper::toResponse)
                         .toList(),
                 HttpStatus.OK
