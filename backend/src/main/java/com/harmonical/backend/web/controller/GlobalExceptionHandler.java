@@ -1,6 +1,7 @@
 package com.harmonical.backend.web.controller;
 
 import com.harmonical.backend.domain.exception.InvalidDateFormatException;
+import com.harmonical.backend.domain.exception.InvalidIDFormatException;
 import com.harmonical.backend.domain.exception.ResourceNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,6 +58,13 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(InvalidDateFormatException.class)
     public ResponseEntity<Map<String, String>> handleInvalidDateFormatException(InvalidDateFormatException e) {
+        return ResponseEntity
+                .badRequest()
+                .body(Map.of("message", e.getMessage()));
+    }
+
+    @ExceptionHandler(InvalidIDFormatException.class)
+    public ResponseEntity<Map<String, String>> handleInvalidIDFormatException(InvalidIDFormatException e) {
         return ResponseEntity
                 .badRequest()
                 .body(Map.of("message", e.getMessage()));
