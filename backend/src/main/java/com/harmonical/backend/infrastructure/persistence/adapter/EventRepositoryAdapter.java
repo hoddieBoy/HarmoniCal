@@ -54,4 +54,9 @@ public class EventRepositoryAdapter implements EventRepository {
                 .map(mapper::toDomain)
                 .toList();
     }
+
+    @Override
+    public void delete(IEvent event) {
+        jpaEventRepository.deleteById(event.getId());
+    }
 }

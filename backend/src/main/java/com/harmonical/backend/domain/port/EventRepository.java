@@ -11,4 +11,6 @@ public interface EventRepository {
     Optional<IEvent> findById(UUID eventId);
 
     List<IEvent> findAll(String search, LocalDate beginDate, LocalDate endDate);
+
+    void delete(IEvent event);
 }

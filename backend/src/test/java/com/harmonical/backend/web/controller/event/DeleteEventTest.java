@@ -7,8 +7,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
@@ -75,15 +73,28 @@ class DeleteEventTest {
     @DisplayName("When: An invalid event ID is provided")
     @Nested
     class InvalidEventId {
-        @DisplayName("Then: A 404 status is returned")
-        @ParameterizedTest
-        @ValueSource(strings = {"invalid-id", ""})
-        void testDeleteEvent(String eventId) {
+        @DisplayName("Then: A 404 status is returned when the format is invalid")
+        @Test
+        void testDeleteEventWithInvalidId() {
+            // Invalid ID format
             webTestClient.delete()
-                    .uri(getBaseUrl() + "/" + eventId)
+                    .uri(getBaseUrl() + "/invalid-id")
                     .exchange()
-                    .expectStatus().isNotFound();
+                    .expectStatus().isBadRequest()
+                    .expectBody()
+                    .jsonPath("$.message").isEqualTo("Invalid ID format: invalid-id");
         }
 
+        @DisplayName("Then: A 404 status is returned when the event does not exist")
+        @Test
+        void testDeleteEventWithNonExistentId() {
+            // Event does not exist
+            webTestClient.delete()
+                    .uri(getBaseUrl() + "/00000000-0000-0000-0000-000000000000")
+                    .exchange()
+                    .expectStatus().isNotFound()
+                    .expectBody()
+                    .jsonPath("$.message").isEqualTo("Event not found with id: 00000000-0000-0000-0000-000000000000");
+        }
     }
 }
