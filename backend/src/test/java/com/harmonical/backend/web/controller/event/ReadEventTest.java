@@ -1,9 +1,8 @@
 package com.harmonical.backend.web.controller.event;
 
 import com.harmonical.backend.domain.model.Event;
-import com.harmonical.backend.domain.port.EventRepository;
 import com.harmonical.backend.domain.port.IEvent;
-import org.junit.jupiter.api.BeforeEach;
+import com.harmonical.backend.domain.port.repository.EventRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -17,8 +16,6 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @DisplayName("Given: A request to get an event")
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)

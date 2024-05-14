@@ -1,7 +1,7 @@
 package com.harmonical.backend.infrastructure.persistence.adapter;
 
-import com.harmonical.backend.domain.port.EventRepository;
 import com.harmonical.backend.domain.port.IEvent;
+import com.harmonical.backend.domain.port.repository.EventRepository;
 import com.harmonical.backend.infrastructure.persistence.mapper.EventEntityMapper;
 import com.harmonical.backend.infrastructure.persistence.repository.JPAEventRepository;
 import com.harmonical.backend.infrastructure.persistence.specification.EventSpecification;

@@ -1,7 +1,7 @@
 package com.harmonical.backend.web.controller.event;
 
 import com.harmonical.backend.domain.model.Event;
-import com.harmonical.backend.domain.port.EventRepository;
+import com.harmonical.backend.domain.port.repository.EventRepository;
 import com.harmonical.backend.web.http.response.EventResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

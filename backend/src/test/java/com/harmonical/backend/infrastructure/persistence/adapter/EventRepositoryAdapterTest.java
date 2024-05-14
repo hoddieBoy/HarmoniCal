@@ -1,8 +1,8 @@
 package com.harmonical.backend.infrastructure.persistence.adapter;
 
 import com.harmonical.backend.domain.model.Event;
-import com.harmonical.backend.domain.port.EventRepository;
 import com.harmonical.backend.domain.port.IEvent;
+import com.harmonical.backend.domain.port.repository.EventRepository;
 import com.harmonical.backend.infrastructure.persistence.mapper.EventEntityMapper;
 import com.harmonical.backend.infrastructure.persistence.model.EventEntity;
 import org.junit.jupiter.api.BeforeEach;

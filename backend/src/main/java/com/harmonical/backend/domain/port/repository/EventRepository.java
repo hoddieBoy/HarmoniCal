@@ -1,4 +1,6 @@
-package com.harmonical.backend.domain.port;
+package com.harmonical.backend.domain.port.repository;
+
+import com.harmonical.backend.domain.port.IEvent;
 
 import java.time.LocalDate;
 import java.util.List;
