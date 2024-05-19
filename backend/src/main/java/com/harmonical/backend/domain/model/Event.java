@@ -33,8 +33,7 @@ public class Event implements IEvent {
     public UUID getId() {
         return id;
     }
-
-
+  
     @Override
     public String getTitle() {
         return title;
@@ -110,6 +109,4 @@ public class Event implements IEvent {
         this.description = Objects.requireNonNullElse(description, "No description provided");
         this.location = Objects.requireNonNullElse(location, "No location provided");
     }
-
-
 }
