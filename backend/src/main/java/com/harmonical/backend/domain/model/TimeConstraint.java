@@ -2,31 +2,35 @@ package com.harmonical.backend.domain.model;
 
 import com.harmonical.backend.domain.port.IEvent;
 
-import java.time.LocalTime;
-import java.util.Map;
+import java.time.LocalDateTime;
 
 public class TimeConstraint extends UnaryConstraint {
 
-    private final LocalTime beginTime;
+    private final LocalDateTime beginTime;
 
-    private final LocalTime endTime;
+    private final LocalDateTime endTime;
 
-    public TimeConstraint(IEvent event, LocalTime beginTime, LocalTime endTime) {
+    public TimeConstraint(IEvent event, LocalDateTime beginTime, LocalDateTime endTime) {
         super(event);
+
+        if (beginTime.isAfter(endTime)) {
+            throw new IllegalArgumentException("Begin time cannot be after end time");
+        }
+
         this.beginTime = beginTime;
         this.endTime = endTime;
     }
 
-    public LocalTime getBeginTime() {
+    public LocalDateTime getBeginTime() {
         return beginTime;
     }
 
-    public LocalTime getEndTime() {
+    public LocalDateTime getEndTime() {
         return endTime;
     }
 
     @Override
-    public boolean isSatisfiedBy(Map<IEvent, LocalTime> schedule) {
-        return schedule.containsKey(getEvent()) && schedule.get(getEvent()).isAfter(beginTime) && schedule.get(getEvent()).isBefore(endTime);
+    public boolean check(LocalDateTime time) {
+        return (time.isEqual(beginTime) || time.isAfter(beginTime)) && (time.isEqual(endTime) || time.isBefore(endTime));
     }
 }
