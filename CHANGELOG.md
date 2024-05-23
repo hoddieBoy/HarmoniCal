@@ -1,4 +1,15 @@
 markdown
+## 2024-05-23
+
+### Added
+- JPA repository, entity, and mapper for event management.
+- Taskfile for common development tasks.
+- Integration tests for event operations.
+
+### Changed
+- Standardized formatting in `application.yml`.
+
+markdown
 ## 2024-05-19
 
 ### Added
